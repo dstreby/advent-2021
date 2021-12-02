@@ -16,7 +16,6 @@
  * =====================================================================================
  */
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -38,28 +37,33 @@ int main ( int argc, char *argv[] )
     return EXIT_FAILURE;
   }
 
+  // get number of ints in file
   while ( fscanf(fp, "%d", &num) != EOF ) {
     nums++;
   }
 
-  int foo[nums];
-  memset(foo, 0, nums*sizeof(int));
+  int original[nums];
+  memset(original, 0, nums*sizeof(int));
 
+  // set the file pointer back to the start of the file
   fseek(fp, 0, SEEK_SET);
+
   int i = 0;
-  while ( fscanf(fp, "%d", &foo[i]) != EOF ) {
+  while ( fscanf(fp, "%d", &original[i]) != EOF ) {
     ++i;
   }
 
   fclose(fp);
 
-  int arrLen = sizeof(foo) / sizeof(foo[0]);
-  int bar[arrLen - 1];
-  memcpy(bar, foo + 1, sizeof(bar));
+  int arrLen = sizeof(original) / sizeof(original[0]);
+  int shifted[arrLen - 1];
+
+  // create left shifted copy of input array
+  memcpy(shifted, original + 1, sizeof(shifted));
 
   int increases = 0;
   for(int i = 0; i < arrLen - 1; i++) {
-    if ( bar[i] > foo[i]  ) {
+    if ( shifted[i] > original[i]  ) {
       increases++;
     }
   }
