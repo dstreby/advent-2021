@@ -42,28 +42,26 @@ int main ( int argc, char *argv[] )
     nums++;
   }
 
-  int original[nums];
-  memset(original, 0, nums*sizeof(int));
+  // initialize array
+  int depth[nums];
+  memset(depth, 0, nums*sizeof(int));
 
   // set the file pointer back to the start of the file
   fseek(fp, 0, SEEK_SET);
 
+  // load ints from file into array
   int i = 0;
-  while ( fscanf(fp, "%d", &original[i]) != EOF ) {
+  while ( fscanf(fp, "%d", &depth[i]) != EOF ) {
     ++i;
   }
 
   fclose(fp);
 
-  int arrLen = sizeof(original) / sizeof(original[0]);
-  int shifted[arrLen - 1];
-
-  // create left shifted copy of input array
-  memcpy(shifted, original + 1, sizeof(shifted));
-
+  // iterate through array and count occurances of n+1>n
+  int arrLen = sizeof(depth) / sizeof(depth[0]);
   int increases = 0;
-  for(int i = 0; i < arrLen - 1; i++) {
-    if ( shifted[i] > original[i]  ) {
+  for(int i = 1; i < arrLen; i++) {
+    if ( depth[i+1] > depth[i]  ) {
       increases++;
     }
   }
