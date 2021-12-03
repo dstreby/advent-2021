@@ -58,15 +58,21 @@ int main ( int argc, char *argv[] )
     return EXIT_FAILURE;
   }
 
-  int line = 0;
+  // Array to determine if there are more 1's or 0's for each "bit" position in the
+  // input data strings. Once processing is complete, the "bit" value will be negative if
+  // there were more 0's in that field, or positive if there were more 1's in that field
   int digits[12] = {0};
+  int line = 0;
   char buffer[BUFF_SIZE];
+  // Iterate through the file, loading one string at a time into buffer
   while ( fscanf(fp, "%s", buffer) != EOF ) {
-    //printf ( "Line: %04d, Buffer: %s ", line, buffer );
+    fprintf ( stderr, "Line: %04d, Buffer: %s ", line, buffer );
     char *buffChar = buffer;
     int bit = 0;
+    // Iterate through buffer, one character at a time (until NULL terminator)
+    // and increment / decrement the digits array for each "bit" position.
     while ( buffChar != NULL && *buffChar != '\0' ) {
-      //printf ( "%c ", *buffChar );
+      fprintf ( stderr, "%c ", *buffChar );
       if ( *buffChar == 0 + ASCII_OFFSET ) {
         digits[bit]--;
       } else if ( *buffChar == 1 + ASCII_OFFSET ) {
@@ -75,11 +81,12 @@ int main ( int argc, char *argv[] )
       ++buffChar;
       ++bit;
     }
-    //printf ( "\n" );
+    fprintf ( stderr, "\n" );
     line++;
   }
   fclose(fp);
 
+  // Construct the binary string for gamma and epsilon values bitwise
   char gamma[] = "000000000000";
   char epsilon[] = "111111111111";
   for ( int i = 0; i < ( sizeof(digits) / sizeof(int) ); i++ ) {
@@ -89,12 +96,13 @@ int main ( int argc, char *argv[] )
     }
   }
 
-  printf ( "gamma: %s\nepsilon: %s\n", gamma, epsilon);
+  // Convert the binary strings to decimal integers
   long gamma_bin = atol(gamma);
   int gamma_dec = bin_to_dec(gamma_bin);
   long epsilon_bin = atol(epsilon);
   int epsilon_dec = bin_to_dec(epsilon_bin);
 
+  printf ( "gamma: %s\nepsilon: %s\n", gamma, epsilon);
   printf ( "gamma: %d\nepsilon: %d\n", gamma_dec, epsilon_dec );
   printf ( "power consumption: %d\n", gamma_dec * epsilon_dec );
 
