@@ -22,7 +22,6 @@
 #include <math.h>
 
 #define BUFF_SIZE 16
-#define ASCII_OFFSET 48
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -73,9 +72,9 @@ int main ( int argc, char *argv[] )
     // and increment / decrement the digits array for each "bit" position.
     while ( buffChar != NULL && *buffChar != '\0' ) {
       fprintf ( stderr, "%c ", *buffChar );
-      if ( *buffChar == 0 + ASCII_OFFSET ) {
+      if ( *buffChar == '0') {
         digits[bit]--;
-      } else if ( *buffChar == 1 + ASCII_OFFSET ) {
+      } else if ( *buffChar == '1') {
         digits[bit]++;
       }
       ++buffChar;
