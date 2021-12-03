@@ -39,16 +39,21 @@ int main( int argc, char *argv[] )
 
   int horiz = 0;
   int depth = 0;
+  int aim = 0;
+  int aimDepth = 0;
   char buffer[BUFF_SIZE];
   int distance;
   int i = 0;
   while( fscanf(fp, "%s%d", buffer, &distance) != EOF ) {
     if( strcmp("forward", buffer) == 0 ) {
       horiz += distance;
+      aimDepth += distance * aim;
     } else if( strcmp("up", buffer) == 0 ) {
       depth -= distance;
+      aim -= distance;
     } else if( strcmp("down", buffer) == 0 ) {
       depth += distance;
+      aim += distance;
     } else {
       printf ( "Invalid direction encountered: %s\n", buffer );
       return EXIT_FAILURE;
@@ -60,6 +65,7 @@ int main( int argc, char *argv[] )
 
   printf( "depth: %d, distance: %d\n", depth, horiz );
   printf( "depth * distance: %d\n", depth * horiz );
+  printf( "aimDepth * distance: %d\n", aimDepth * horiz );
 
   return EXIT_SUCCESS;
 }
