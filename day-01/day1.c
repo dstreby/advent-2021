@@ -60,13 +60,17 @@ int main ( int argc, char *argv[] )
   // iterate through array and count occurances of n+1>n
   int arrLen = sizeof(depth) / sizeof(depth[0]);
   int increases = 0;
+  int windowIncs = 0;
   for(int i = 1; i < arrLen; i++) {
     if ( depth[i+1] > depth[i]  ) {
       increases++;
     }
+    if ( (depth[i+1] + depth[i+2] + depth[i+3]) > (depth[i] + depth[i+1] + depth[i+2]) ) {
+      windowIncs++;
+    }
   }
 
-  printf ( "%d\n", increases );
+  printf ( "%d, %d\n", increases, windowIncs );
 
   return EXIT_SUCCESS;
 }
